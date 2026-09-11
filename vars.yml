@@ -1,0 +1,71 @@
+---
+global:
+    # Same build source as the original template (release/fy25-q1 branch).
+    # If you want the "develop" branch instead, swap these two URLs for the
+    # ones from guide section 7.2.3.1.1 and tell me so I can adjust K8S_VERSION too.
+    EZFAB: "http://lr1-bd-jfrog-artifactory.mip.storage.hpecorp.net/artifactory/ezkaas/release/fy25-q1/187/ezfab-release.tgz"
+    EZFABRICTL: "http://lr1-bd-jfrog-artifactory.mip.storage.hpecorp.net/artifactory/ezkaas/release/fy25-q1/187/ezfabricctl_linux_amd64"
+
+    REGISTRY_URL: "lr1-bd-harbor-registry.mip.storage.hpecorp.net/develop"
+
+proxy:
+    # Keeping your proxy for outbound internet (same one you used for dnf/pip).
+    # NO_PROXY includes your whole 192.168.96.0/24 lab subnet so cluster-internal
+    # traffic between your 6 VMs never gets routed through the proxy.
+    HTTP_PROXY: http://10.93.144.53:8080
+    HTTPS_PROXY: http://10.93.144.53:8080
+    NO_PROXY: 10.96.0.1,10.96.0.0/12,10.244.0.0/16,192.168.96.0/24,.cluster.local,.svc,.default.svc,localhost,127.0.0.1
+
+cluster:
+    COORDINATOR_NLB: ""
+    COORDINATOR_IPS: "192.168.96.1"        # chaker-fab
+    FIRST_COORDINATOR_IP: "192.168.96.1"
+    MASTER_IPS: "192.168.96.3"             # chaker-master
+    FIRST_MASTER_IP: "192.168.96.3"
+    MASTER_EXTERNAL_NLB: ""
+    MASTER_FLOATING_VIP: ""
+    METALLB_CIDR: "192.168.96.4/32"        # worker1's IP, /32 as the doc specifies
+    WORKER_IPS: "192.168.96.4 192.168.96.5 192.168.96.6"   # worker1, worker2, worker3
+    GPU_IPS: ""                            # leave empty - no GPUs in your setup
+    CLUSTER_NAME: "chakerlab"
+    UA_DOMAIN_NAME: "lab.local"            # matches your /etc/hosts entries
+    VCPUS: 96                              # 32+32+32 across your 3 workers
+    VGPUS: 0
+    GPU_PARTITION: whole
+    WORKLOAD_TYPE: "ezua"
+    DEPLOY_ENV: "pcai"
+    K8S_VERSION: "1.30.8-hpe3"             # matches the fy25-q1 branch above
+    SSH_USER: "root"                     
+
+storage:
+    PROVIDER: "NFS"
+    NFS_ENDPOINT: "192.168.96.2"           # chaker-bld
+    NFS_SHARE: "/nfs_share"
+    NFS_MOUNT_OP: "nfsvers=4.1"
+
+objectstore:
+    # PROVIDER stays "Minio-S3" even though you're running SeaweedFS -
+    # ezdeployer just wants an S3-compatible endpoint at this key name.
+    PROVIDER: "Minio-S3"
+    MINIO_ENDPOINT: "http://192.168.96.2:8333"   # chaker-bld, SeaweedFS S3 port
+    MINIO_ACCESS_KEY: "YWRtaW4="                 # base64 of "admin"
+    MINIO_SECRET_KEY: "YWRtaW4xMjM="             # base64 of "admin123"
+
+license:
+    TYPE: ""                # fill in when you get to guide section 8.5 (License)
+    VCPU_LICENSE_FILE: ""
+    GPU_LICENSE_FILE: ""
+
+dnscerts:
+    USE_CUSTOM_DOMAIN_CERTS: ""   # leave blank - use AIE's default self-signed CA
+    SERVER_CERT_FILE: ""
+    PRIVATE_KEY_FILE: ""
+    ROOT_CA_FILE: ""
+
+auth:
+    # Simplest option - no LDAP, no OIDC, no HPE SSO Broker.
+    # Default login will be admin/admin (decoded from INTERNAL_AUTH_DATA below).
+    TYPE: "internal_auth"
+    INTERNAL_AUTH_DATA: ew0KICAgImFkbWluX3VzZXIiOiB7DQogICAgICJmdWxsbmFtZSI6ICJhZG1pbiIsDQogICAgICJlbWFpbCI6ICJhZG1pbkBocGUuY29tIiwNCiAgICAgInBhc3N3b3JkIjogImFkbWluIiwNCiAgICAgInVzZXJuYW1lIjogImFkbWluIg0KICAgfQ0KfQ==
+    EXTERNAL_AUTH_DATA:
+    EXTERNAL_AUTH_OIDC_DATA:
