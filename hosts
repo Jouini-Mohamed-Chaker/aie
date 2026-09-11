@@ -1,0 +1,22 @@
+# Chaker's VM Addresses
+192.168.96.1 chaker-fab
+192.168.96.2 chaker-bld
+192.168.96.3 chaker-master
+192.168.96.4 chaker-worker1
+192.168.96.5 chaker-worker2
+192.168.96.6 chaker-worker3
+
+# Virtual Services on AIE (pointing at chaker-worker1)
+192.168.96.4 home.lab.local
+192.168.96.4 keycloak.lab.local
+192.168.96.4 token-service.lab.local
+192.168.96.4 spark.lab.local
+192.168.96.4 mlflow.lab.local
+192.168.96.4 airflow.lab.local
+192.168.96.4 feast.lab.local
+192.168.96.4 ray-dashboard.lab.local
+192.168.96.4 ezpresto.lab.local
+192.168.96.4 superset.lab.local
+192.168.96.4 mlis.lab.local
+192.168.96.4 kubeflow.lab.local
+192.168.96.4 oauth2-proxy.lab.local
