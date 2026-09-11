@@ -35,7 +35,8 @@ cluster:
     WORKLOAD_TYPE: "ezua"
     DEPLOY_ENV: "pcai"
     K8S_VERSION: "1.30.8-hpe3"             # matches the fy25-q1 branch above
-    SSH_USER: "root"                     
+    SSH_USER: "root"
+    SSH_PASSWORD: "Labadmin@123"               
 
 storage:
     PROVIDER: "NFS"
