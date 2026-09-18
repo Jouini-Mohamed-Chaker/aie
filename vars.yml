@@ -85,7 +85,7 @@ objectstore:
     AWS_REGION: ""
 
     # EDF Config
-    EDF_ENDPOINT: "https://m2-lr1-dev-vm215141.mip.storage.hpecorp.net:9000"
+    EDF_ENDPOINT: ""
     EDF_ACCESS_KEY: ""
     EDF_SECRET_KEY: ""
 
