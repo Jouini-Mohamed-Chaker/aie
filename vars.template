@@ -1,0 +1,137 @@
+---
+global:
+  # release branch bits
+  # EZFAB: "http://lr1-bd-jfrog-artifactory.mip.storage.hpecorp.net/artifactory/ezkf/fabricctl/release/fy24-q1/74/ezfab-release.tgz"
+  # EZFABRICTL: "http://lr1-bd-jfrog-artifactory.mip.storage.hpecorp.net/artifactory/ezkf/fabricctl/release/fy24-q1/74/ezfabricctl_linux_amd64"
+
+
+  # PCAI single node
+  EZFAB: "http://lr1-bd-jfrog-artifactory.mip.storage.hpecorp.net/artifactory/ezkaas/release/fy25-q1/187/ezfab-release.tgz"
+  EZFABRICTL: "http://lr1-bd-jfrog-artifactory.mip.storage.hpecorp.net/artifactory/ezkaas/release/fy25-q1/187/ezfabricctl_linux_amd64"
+
+  # PCAI single node develop branch
+  # Browse available builds at http://lr1-bd-jfrog-artifactory.mip.storage.hpecorp.net/artifactory/ezkaas/develop/
+  #EZFAB: "http://lr1-bd-jfrog-artifactory.mip.storage.hpecorp.net/artifactory/ezkaas/develop/621/ezfab-release.tgz"
+  #EZFABRICTL: "http://lr1-bd-jfrog-artifactory.mip.storage.hpecorp.net/artifactory/ezkaas/develop/621/ezfabricctl_linux_amd64"
+
+
+# Registry
+registry:
+    REGISTRY_URL: "lr1-bd-harbor-registry.mip.storage.hpecorp.net/develop"
+    REGISTRY_USER: ""   #OPTIONAL: Username for registry ( e.g. admin )
+    REGISTRY_B64_PASSWORD: ""   #OPTIONAL: Password for registry ( base64 encoded )
+
+proxy:
+    HTTP_PROXY: http://hpeproxy.its.hpecorp.net:443
+    HTTPS_PROXY: http://hpeproxy.its.hpecorp.net:443
+    NO_PROXY: 10.96.0.1,10.96.0.0/12,10.96.0.12,10.96.0.10,10.244.0.0/16,10.14.0.0/16,172.23.122.0/23,.external.hpe.local,localhost,.cluster.local,.svc,.default.svc,127.0.0.1,172.25.0.2,172.25.0.3,172.25.0.4,172.25.0.5,172.25.0.6,172.25.0.7,172.25.0.8,172.25.0.9
+
+cluster:
+  COORDINATOR_NLB: ""
+  COORDINATOR_IPS: ""      # REQUIRED: IP addresses of VM to be used as ezfab (space separated list of 1 or 3 IPs)
+  FIRST_COORDINATOR_IP: "" # REQUIRED: IP address of VM to be used as ezfab
+  MASTER_IPS: ""           # REQUIRED: IP addresses of VM to be used as the master (space separated list of 1 or 3 IPs)
+  FIRST_MASTER_IP: ""      # REQUIRED: IP address of VM to be used as the master
+  MASTER_EXTERNAL_NLB: ""
+  MASTER_FLOATING_VIP: ""
+  METALLB_CIDR: ""
+  WORKER_IPS: ""            # REQUIRED: IP addresses of VM to be used as the workers (space separated)
+  GPU_IPS: ""               # IP addresses of VM to be used as the workers with GPUs (space separated)
+  CLUSTER_NAME: ""          # REQUIRED: Name for your k8s cluster (e.g. myaielr1)
+  # REQUIRED: Domain name for your cluster.  If you do not have one, may use entries from /etc/hosts or
+  # a magic DNS endpoint (like WORKERIP.nip.io -- e.g. 10.227.217.62.nip.io).
+  UA_DOMAIN_NAME: ""
+  VCPUS: 64
+  VGPUS: 1
+  GPU_PARTITION: whole
+  WORKLOAD_TYPE: "ezua"
+  DEPLOY_ENV: "pcai"
+  K8S_VERSION: "1.31.6-hpe1"
+  SSH_USER: ""              # REQUIRED: user on all VMs, password will be provided by SSH.  For VMs your LDAP user.
+
+
+apps:
+  # Optional apps that can be disabled
+  AIRFLOW: "true"
+  SPARK: "true"
+  KUBERAY: "true"
+  POSTINSTALL: "true"
+
+storage:
+  # provider: "NFS" or "EDF" or "GL4F" or "Alletra"
+  PROVIDER : "NFS"
+
+  # NFS Config
+  NFS_ENDPOINT: ""            # NFS Server IP Address
+  NFS_SHARE: "/nfs_share"     # NFS share name
+  NFS_MOUNT_OP: "nfsvers=4.1" # NFS mount options
+
+  #GL4F Config
+  GL4F_ENDPOINT: "mip-alletramp-48f.mip.storage.hpecorp.net"
+  GL4F_ROOT_EXPORT: "/ezua_path"
+  GL4F_SECRET_NAME: "gl4f-mgmt"
+  GL4F_VIEW_POLICY: "default"
+  GL4F_VIP_POOL_NAME: "pool1"
+  GL4F_USER: "YWRtaW4K"
+  GL4F_PASSWORD: "QkRuQG5QQjQyTCE="
+  GL4F_MOUNT_OP: "nfsvers=4.1"
+
+  #EDF Config
+  EDF_CLDB_HOSTS: "10.227.215.136:7222 10.227.215.137:7222 10.227.215.141:7222"
+  EDF_MOUNT_PREFIX: "/aiedemo3"
+  EDF_REST_SERVERS: "10.227.215.136:8443 10.227.215.137:8443 10.227.215.141:8443"
+  EDF_SECRET_NAME: "edf-secret"
+  EDF_USER: "ZXp1YQo="
+  EDF_PASSWORD: "dEtoYmNnby9MYlhZMzNYYwo="
+  EDF_CA_CERT: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tDQpNSUlDOERDQ0FsR2dBd0lCQWdJRWIxWm9QakFLQmdncWhrak9QUVFEQWpDQmd6RVRNQkVHQ2dtU0pvbVQ4aXhrDQpBUmtXQTI1bGRERVhNQlVHQ2dtU0pvbVQ4aXhrQVJrV0IyaHdaV052Y25BeERUQUxCZ05WQkFvTUJFMWhjRkl4DQpJVEFmQmdOVkJBc01HRTFoY0ZJZ1JXNW5hVzVsWlhKcGJtY2dVbTl2ZENCRFFURWhNQjhHQTFVRUF3d1lUV0Z3DQpVaUJGYm1kcGJtVmxjbWx1WnlCU2IyOTBJRU5CTUNBWERUSTBNVEV4TWpFME1qa3dNbG9ZRHpJeE1qUXhNREU1DQpNVFF5T1RBeVdqQ0JpVEVUTUJFR0NnbVNKb21UOGl4a0FSa1dBMjVsZERFWE1CVUdDZ21TSm9tVDhpeGtBUmtXDQpCMmh3WldOdmNuQXhEVEFMQmdOVkJBb01CRTFoY0ZJeEpEQWlCZ05WQkFzTUcwMWhjRklnUlc1bmFXNWxaWEpwDQpibWNnVTJsbmJtbHVaeUJEUVRFa01DSUdBMVVFQXd3YlRXRndVaUJGYm1kcGJtVmxjbWx1WnlCVGFXZHVhVzVuDQpJRU5CTUlHYk1CQUdCeXFHU000OUFnRUdCU3VCQkFBakE0R0dBQVFCOEY2SjdIUE5rZ016eDFjQmt6SCt1N0NnDQpXeTlUTDNabEliUU40UXAyWFh0VzkwaGNJbG9WWVpQa2N5OTBUS2NWMUFVaTZQNnhlTjVocWNDWmM2bXZCUnNCDQpYTTc5RG9IU0NjanZLcFRYN1FxN1AzUEZ5S0FIbkNsc3MvRzJOSG11dTVBQ0hacE1PdGV0bGU3OXZ3L3c0T1QyDQpmdDh1MC9PWUlGZ1NHeVBGNkticHZKcWpaakJrTUE0R0ExVWREd0VCL3dRRUF3SUJCakFTQmdOVkhSTUJBZjhFDQpDREFHQVFIL0FnRUFNQjBHQTFVZERnUVdCQlJpNXJQdVJXd2ZILzlSNiszbGhjYlhOMnRvOWpBZkJnTlZIU01FDQpHREFXZ0JSekNleTJSUE9oMHh1OG85b3VHODlidy92R0JqQUtCZ2dxaGtqT1BRUURBZ09CakFBd2dZZ0NRZ0RCDQo4M2svY2VYc1ZqTStxSXhUWXFYditWQ1ZLMzVrbnV0bXhaSU9UamhXQklTMFJCUk9hcEdIc0c4SmxiQTByMElzDQpsdkhseWNYUERUQ3E3MlVsaDRqTGVBSkNBTFB3MzY3SFBCTVpvNnRzV3ZpOGJxa0NUc2ExQ0Zsa2tkMW9DNWQ5DQprWWJobWxPZGFERUZIakhUUU8vUXlWNyttcUhIWVVyNlIxUW44dkxFZzFvOEpEbjYNCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0NCi0tLS0tQkVHSU4gQ0VSVElGSUNBVEUtLS0tLQ0KTUlJQzVqQ0NBa2lnQXdJQkFnSUViMVpvUFRBS0JnZ3Foa2pPUFFRREFqQ0JnekVUTUJFR0NnbVNKb21UOGl4aw0KQVJrV0EyNWxkREVYTUJVR0NnbVNKb21UOGl4a0FSa1dCMmh3WldOdmNuQXhEVEFMQmdOVkJBb01CRTFoY0ZJeA0KSVRBZkJnTlZCQXNNR0UxaGNGSWdSVzVuYVc1bFpYSnBibWNnVW05dmRDQkRRVEVoTUI4R0ExVUVBd3dZVFdGdw0KVWlCRmJtZHBibVZsY21sdVp5QlNiMjkwSUVOQk1DQVhEVEkwTVRFeE1qRTBNamt3TWxvWUR6SXhNalF4TURFNQ0KTVRReU9UQXlXakNCZ3pFVE1CRUdDZ21TSm9tVDhpeGtBUmtXQTI1bGRERVhNQlVHQ2dtU0pvbVQ4aXhrQVJrVw0KQjJod1pXTnZjbkF4RFRBTEJnTlZCQW9NQkUxaGNGSXhJVEFmQmdOVkJBc01HRTFoY0ZJZ1JXNW5hVzVsWlhKcA0KYm1jZ1VtOXZkQ0JEUVRFaE1COEdBMVVFQXd3WVRXRndVaUJGYm1kcGJtVmxjbWx1WnlCU2IyOTBJRU5CTUlHYg0KTUJBR0J5cUdTTTQ5QWdFR0JTdUJCQUFqQTRHR0FBUUFiTnJ2V3Z5c2hqOW9wYmZIVXZOMHFsbmQrS1RrWUhBNA0KcHhtMXRMSFNjbjdMNEdKN29qUS8zQkU2cG9VY0oyQ2k2SlF4am9MYkhYNFIwNzAyYys2QkkrZ0IxNTB4TjhOTg0KZm9KOTJpZDc0Yks1anNzdEYxL0FmRGJtV3Aza0d1dnFMdzhtd0lBLytZa2phUU1lbEhYby96Wm9jQ1NiT3RmTg0KZ2kzYm5PaXNIRzhiTnZXall6QmhNQTRHQTFVZER3RUIvd1FFQXdJQkJqQVBCZ05WSFJNQkFmOEVCVEFEQVFILw0KTUIwR0ExVWREZ1FXQkJSekNleTJSUE9oMHh1OG85b3VHODlidy92R0JqQWZCZ05WSFNNRUdEQVdnQlJ6Q2V5Mg0KUlBPaDB4dThvOW91Rzg5YncvdkdCakFLQmdncWhrak9QUVFEQWdPQml3QXdnWWNDUVY2enJOR2xZN1dXaHc0dw0KZ3c0bXJWRG5Qc0FRZWVXY0xXU3JpUFBsNlZOWUo0L0RLeU9lUmtiZ2s3NTNFdlVraE5aZ1Y4UGRYWVU5RG1idA0KWVcvYUI1WUhBa0lCZXBhUHJtcHlndjZkRGp5T0tGWW1lWklDN280VGdGQWVmVndzZytJbVA2U2pwYVpaNldpbQ0KMzRISjE5UW1PMGFORGdCL01Xa0w2Z29ZWEVaNGV3N3NhWkk9DQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0t"
+  EDF_MAPR_TICKET: "bXkuY2x1c3Rlci5jb20gS053RWc2V0VnUVZ2eUViUC9xV1pvelZIME5GQTFlT2pHK1A0ZDhhcVFOcVRMVkVaK2FEbjNJcUdDbXdEcDRzRUI5YnZrdEZ2UHozTEY4TjQ3Mm5LamhIYVZrV0Q1aWNlVGFDM1dZMis2VjNzbUkvQ25ZQ3dsY3BDQkM5UithdXVDUmRpSEZ0SitlNEJ6OWViNkltOS9mUGk4ZXVKNDVHTU1JNVloQk9PaFFGVjF3S2QzM2N3QjY5aW9UVVEzc29XSzA4VDNxbTRaSXg3SEVGMVdMK0RZYUFnS2NSaUtqOGo3S0ZzVytRdnNvbW9FZEhCbE0rREtkcVhEdjBYU0lxdTdqTEZKUFdiV2twT1JjOVg1R2pybDdsblIvbmpBQjE0ZmozanJVd0NMT0JSWmkzWW1qWm5tNVBOcFJySQ=="
+
+  #Alletra Config
+  ALLETRA_BACKEND: ""
+  ALLETRA_USER_NAME: ""
+  ALLETRA_PASSWORD: ""
+  ALLETRA_SECRET_NAME: "alletra-secret"
+
+objectstore:
+  # TODO: Support for root ca file
+  # provider: "Minio-S3" | "EDF-S3" | "GL4F-S3" | "AWS-S3"
+  PROVIDER: "Minio-S3"
+
+  # MinIO Config
+  # MINIO server IP address and port (e.g. "10.227.209.151:9000")
+  MINIO_ENDPOINT: ""
+  # Base64 encoded S3 accessKey (echo -n KEY | base64)
+  MINIO_ACCESS_KEY: "oykcbQOf3pZOF5xZ"
+  # Base64 encoded S3 secretKey (echo -n KEY | base64)
+  MINIO_SECRET_KEY: "CBQ4HgDbloRZF2EuCOqHXxoLDHMM2Hik"
+
+  # GL4F Config
+  GL4F_ENDPOINT: "https://172.25.0.4"
+  GL4F_ACCESS_KEY: "VDVFUzlSNU5RTjk3N09YUDFaUEE="
+  GL4F_SECRET_KEY: "TXBzNGdpL2R5bkhVUElXRGpYVmxjRDZxUGdYUERJYXFqRzN6K0tCbQ=="
+
+  # AWS Config
+  AWS_ENDPOINT: ""
+  AWS_ACCESS_KEY: ""
+  AWS_SECRET_KEY: ""
+  AWS_REGION: ""
+
+  # EDF Config
+  EDF_ENDPOINT: "https://m2-lr1-dev-vm215141.mip.storage.hpecorp.net:9000"
+  EDF_ACCESS_KEY: ""
+  EDF_SECRET_KEY: ""
+
+license:
+  TYPE: "capacity" # or subscription
+  VCPU_LICENSE_FILE: "" # Provide a license file to apply
+  GPU_LICENSE_FILE: "" # Required if it is capacity license type
+
+dnscerts:
+  USE_CUSTOM_DOMAIN_CERTS: ""  # If set to custom, must specify values for below 3 fields
+  SERVER_CERT_FILE: "" # file path to server.pem or fullchain.pem file
+  PRIVATE_KEY_FILE: ""
+  ROOT_CA_FILE: ""
+
+auth:
+  TYPE: "external_auth_oidc"
+  EXTERNAL_AUTH_OIDC_DATA: ew0KICAiYWxsb3dfZW1haWxfbG9naW4iOiAidHJ1ZSIsDQogICJpZF9wcm92aWRlciI6ICJ7IFwiYWxpYXNcIjogXCJocGUtc3NvLWJyb2tlclwiLCBcImRpc3BsYXlOYW1lXCI6IFwiSFBFIFNTTyBCcm9rZXJcIiwgXCJwcm92aWRlcklkXCI6IFwia2V5Y2xvYWstb2lkY1wiLCBcImVuYWJsZWRcIjogdHJ1ZSwgXCJ1cGRhdGVQcm9maWxlRmlyc3RMb2dpbk1vZGVcIjogXCJvblwiLCBcInRydXN0RW1haWxcIjogZmFsc2UsIFwic3RvcmVUb2tlblwiOiBmYWxzZSwgXCJhZGRSZWFkVG9rZW5Sb2xlT25DcmVhdGVcIjogZmFsc2UsIFwiYXV0aGVudGljYXRlQnlEZWZhdWx0XCI6IGZhbHNlLCBcImxpbmtPbmx5XCI6IGZhbHNlLCBcImZpcnN0QnJva2VyTG9naW5GbG93QWxpYXNcIjogXCJhdXRvbGlua1wiLCBcInBvc3RCcm9rZXJMb2dpbkZsb3dBbGlhc1wiOiBcInJvbGUgY2hlY2tcIiwgXCJjb25maWdcIjogeyBcImRlZmF1bHRTY29wZVwiOiBcIm9wZW5pZCBwcm9maWxlIGVtYWlsXCIsIFwiYWNjZXB0c1Byb21wdE5vbmVGb3J3YXJkRnJvbUNsaWVudFwiOiBcImZhbHNlXCIsIFwidG9rZW5VcmxcIjogXCJodHRwczovL2hjaXBvYy1hcHAucWEuY2RzLmhwZS5jb20vZGF0YS1zZXJ2aWNlcy92MWJldGExL3Nzby1icm9rZXIvcmVhbG1zL3BjYWkvcHJvdG9jb2wvb3BlbmlkLWNvbm5lY3QvdG9rZW5cIiwgXCJpc0FjY2Vzc1Rva2VuSldUXCI6IFwidHJ1ZVwiLCBcImp3a3NVcmxcIjogXCJodHRwczovL2hjaXBvYy1hcHAucWEuY2RzLmhwZS5jb20vZGF0YS1zZXJ2aWNlcy92MWJldGExL3Nzby1icm9rZXIvcmVhbG1zL3BjYWkvcHJvdG9jb2wvb3BlbmlkLWNvbm5lY3QvY2VydHNcIiwgXCJmaWx0ZXJlZEJ5Q2xhaW1cIjogXCJmYWxzZVwiLCBcImJhY2tjaGFubmVsU3VwcG9ydGVkXCI6IFwidHJ1ZVwiLCBcImlzc3VlclwiOiBcImh0dHBzOi8vaGNpcG9jLWFwcC5xYS5jZHMuaHBlLmNvbS9kYXRhLXNlcnZpY2VzL3YxYmV0YTEvc3NvLWJyb2tlci9yZWFsbXMvcGNhaVwiLCBcImxvZ2luSGludFwiOiBcImZhbHNlXCIsIFwiY2xpZW50QXV0aE1ldGhvZFwiOiBcImNsaWVudF9zZWNyZXRfcG9zdFwiLCBcInN5bmNNb2RlXCI6IFwiSU1QT1JUXCIsIFwiY2xpZW50U2VjcmV0XCI6IFwiTXhKVHJNMVZzYW5kTE5OcVdyVGxySVFDSk56c2R2MkhcIiwgXCJhbGxvd2VkQ2xvY2tTa2V3XCI6IFwiMFwiLCBcImhpZGVPbkxvZ2luUGFnZVwiOiBcImZhbHNlXCIsIFwidXNlckluZm9VcmxcIjogXCJcIiwgXCJ2YWxpZGF0ZVNpZ25hdHVyZVwiOiBcInRydWVcIiwgXCJjbGllbnRJZFwiOiBcImEzNTcwYzA1LWFlNjMtNGY5Ny1hOWZmLTNhMGY1NjBmZWUxZVwiLCBcInVpTG9jYWxlc1wiOiBcImZhbHNlXCIsIFwiZGlzYWJsZU5vbmNlXCI6IFwiZmFsc2VcIiwgXCJ1c2VKd2tzVXJsXCI6IFwidHJ1ZVwiLCBcInBrY2VFbmFibGVkXCI6IFwiZmFsc2VcIiwgXCJhdXRob3JpemF0aW9uVXJsXCI6IFwiaHR0cHM6Ly9oY2lwb2MtYXBwLnFhLmNkcy5ocGUuY29tL2RhdGEtc2VydmljZXMvdjFiZXRhMS9zc28tYnJva2VyL3JlYWxtcy9wY2FpL3Byb3RvY29sL29wZW5pZC1jb25uZWN0L2F1dGhcIiwgXCJkaXNhYmxlVXNlckluZm9cIjogXCJmYWxzZVwiLCBcImxvZ291dFVybFwiOiBcImh0dHBzOi8vaGNpcG9jLWFwcC5xYS5jZHMuaHBlLmNvbS9kYXRhLXNlcnZpY2VzL3YxYmV0YTEvc3NvLWJyb2tlci9yZWFsbXMvcGNhaS9wcm90b2NvbC9vcGVuaWQtY29ubmVjdC9sb2dvdXRcIiwgXCJwYXNzTWF4QWdlXCI6IFwiZmFsc2VcIiB9IH0iDQp9

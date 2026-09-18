@@ -1,8 +1,5 @@
 ---
 global:
-    # Same build source as the original template (release/fy25-q1 branch).
-    # If you want the "develop" branch instead, swap these two URLs for the
-    # ones from guide section 7.2.3.1.1 and tell me so I can adjust K8S_VERSION too.
     EZFAB: "http://lr1-bd-jfrog-artifactory.mip.storage.hpecorp.net/artifactory/ezkaas/release/fy25-q1/187/ezfab-release.tgz"
     EZFABRICTL: "http://lr1-bd-jfrog-artifactory.mip.storage.hpecorp.net/artifactory/ezkaas/release/fy25-q1/187/ezfabricctl_linux_amd64"
 
@@ -51,6 +48,11 @@ objectstore:
     MINIO_ENDPOINT: "http://192.168.96.2:8333"   # chaker-bld, SeaweedFS S3 port
     MINIO_ACCESS_KEY: "YWRtaW4="                 # base64 of "admin"
     MINIO_SECRET_KEY: "YWRtaW4xMjM="             # base64 of "admin123"
+
+    AWS_ENDPOINT: ""
+    AWS_ACCESS_KEY: ""
+    AWS_SECRET_KEY: ""
+    AWS_REGION: ""
 
 license:
     TYPE: ""                # fill in when you get to guide section 8.5 (License)
