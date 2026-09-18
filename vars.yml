@@ -89,6 +89,11 @@ objectstore:
     EDF_ACCESS_KEY: ""
     EDF_SECRET_KEY: ""
 
+    # GL4F Config
+    GL4F_ENDPOINT: ""
+    GL4F_ACCESS_KEY: ""
+    GL4F_SECRET_KEY: ""
+
 license:
     TYPE: ""                # fill in when you get to guide section 8.5 (License)
     VCPU_LICENSE_FILE: ""
