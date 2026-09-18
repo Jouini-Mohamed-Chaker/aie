@@ -3,7 +3,11 @@ global:
     EZFAB: "http://lr1-bd-jfrog-artifactory.mip.storage.hpecorp.net/artifactory/ezkaas/release/fy25-q1/187/ezfab-release.tgz"
     EZFABRICTL: "http://lr1-bd-jfrog-artifactory.mip.storage.hpecorp.net/artifactory/ezkaas/release/fy25-q1/187/ezfabricctl_linux_amd64"
 
-    REGISTRY_URL: "lr1-bd-harbor-registry.mip.storage.hpecorp.net/develop"
+# Registry
+registry:
+    REGISTRY_URL: "docker.io/ahmannai/aie"
+    REGISTRY_USER: ""   #OPTIONAL: Username for registry ( e.g. admin )
+    REGISTRY_B64_PASSWORD: ""   #OPTIONAL: Password for registry ( base64 encoded )
 
 proxy:
     # Keeping your proxy for outbound internet (same one you used for dnf/pip).
