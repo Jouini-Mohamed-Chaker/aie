@@ -45,6 +45,32 @@ storage:
     NFS_SHARE: "/nfs_share"
     NFS_MOUNT_OP: "nfsvers=4.1"
 
+    #GL4F Config
+    GL4F_ENDPOINT: ""
+    GL4F_ROOT_EXPORT: ""
+    GL4F_SECRET_NAME: ""
+    GL4F_VIEW_POLICY: ""
+    GL4F_VIP_POOL_NAME: ""
+    GL4F_USER: ""
+    GL4F_PASSWORD: ""
+    GL4F_MOUNT_OP: ""
+
+    #EDF Config
+    EDF_CLDB_HOSTS: ""
+    EDF_MOUNT_PREFIX: ""
+    EDF_REST_SERVERS: ""
+    EDF_SECRET_NAME: ""
+    EDF_USER: ""
+    EDF_PASSWORD: ""
+    EDF_CA_CERT: ""
+    EDF_MAPR_TICKET:
+
+    #Alletra Config
+    ALLETRA_BACKEND: ""
+    ALLETRA_USER_NAME: ""
+    ALLETRA_PASSWORD: ""
+    ALLETRA_SECRET_NAME: ""
+
 objectstore:
     # PROVIDER stays "Minio-S3" even though you're running SeaweedFS -
     # ezdeployer just wants an S3-compatible endpoint at this key name.
